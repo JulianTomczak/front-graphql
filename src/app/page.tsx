@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import UsersPage from './components/usersPage';
-import ProfilesPage from './components/profilesPage';
+import UsersPage from './components/pages/usersPage';
+import ProfilesPage from './components/pages/profilesPage';
 import './globals.css';
 
 type ViewMode = 'users' | 'profiles';
@@ -43,7 +43,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="footer">
-        <p>© 2024 GraphQL Dashboard - Sistema de Gestión</p>
+        <p>© 2025 GraphQL Dashboard - Sistema de Gestión</p>
       </footer>
     </div>
   );
