@@ -1,20 +1,38 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+Este proyecto usa **Yarn 4** (vía [Corepack](https://yarnpkg.com/corepack)). No uses npm ni pnpm.
+
+## Requisitos previos
+
+- Node.js con Corepack habilitado:
+
+```bash
+corepack enable
+```
+
+## Instalación
+
+```bash
+yarn install
+```
+
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
+
+Otros comandos:
+
+```bash
+yarn build
+yarn start
+yarn lint
+```
 
 ## Learn More
 
