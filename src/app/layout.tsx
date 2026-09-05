@@ -1,7 +1,9 @@
-'use client';
+import type { Metadata } from "next";
+import ApolloClientProvider from "./providers/ApolloClientProvider";
 
-import { ApolloProvider } from '@apollo/client/react';
-import client from './lib/apolloClient';
+export const metadata: Metadata = {
+  title: "GraphQL Dashboard",
+};
 
 export default function RootLayout({
   children,
@@ -9,11 +11,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body>
-        <ApolloProvider client={client}>
+        <ApolloClientProvider>
           {children}
-        </ApolloProvider>
+        </ApolloClientProvider>
       </body>
     </html>
   );

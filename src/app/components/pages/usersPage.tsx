@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client/react";
 import CreateUserModal from "../modals/CreateUserModal";
+import ConfirmModal from "../modals/ConfirmModal";
 import { GET_BASIC_USERS, GET_DETAILED_USERS } from "../../graphql/queries/user";
 import { REMOVE_USER } from "../../graphql/mutations/user";
 import { User } from "../../types/user";
@@ -12,18 +13,25 @@ const UsersPage = () => {
   const [viewMode, setViewMode] = useState<"basic" | "detailed">("basic");
   const [searchTerm, setSearchTerm] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<User | null>(null);
 
   const { loading, error, data, refetch } = useQuery<{ users: User[] }>(
     viewMode === "detailed" ? GET_DETAILED_USERS : GET_BASIC_USERS
   );
 
-  const [removeUser, { error: removeError }] = useMutation(REMOVE_USER);
+  const [removeUser, { loading: removing, error: removeError }] = useMutation(REMOVE_USER);
 
-  const handleDeleteUser = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
+  const handleDeleteUser = (id: string) => {
+    const user = data?.users?.find((u) => u.id === id);
+    if (user) setPendingDelete(user);
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!pendingDelete) return;
     try {
-      await removeUser({ variables: { id } });
+      await removeUser({ variables: { id: pendingDelete.id } });
       refetch();
+      setPendingDelete(null);
     } catch (err) {
       console.error("Error al eliminar usuario:", err);
     }
@@ -85,6 +93,16 @@ const UsersPage = () => {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onUserCreated={refetch}
+      />
+
+      <ConfirmModal
+        isOpen={!!pendingDelete}
+        title="Eliminar usuario"
+        message={`¿Estás seguro de que deseas eliminar al usuario "${pendingDelete?.username}"? Esta acción no se puede deshacer.`}
+        confirmLabel="Eliminar"
+        isConfirming={removing}
+        onConfirm={confirmDeleteUser}
+        onClose={() => setPendingDelete(null)}
       />
     </div>
   );
