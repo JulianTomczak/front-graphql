@@ -7,6 +7,7 @@ interface Props {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   resultsCount: number;
+  onOpenCreateModal?: () => void;
 }
 
 const ProfilesControls: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const ProfilesControls: React.FC<Props> = ({
   searchTerm,
   setSearchTerm,
   resultsCount,
+  onOpenCreateModal,
 }) => {
   return (
     <div className="controls-section">
@@ -30,19 +32,27 @@ const ProfilesControls: React.FC<Props> = ({
         <span className="results-badge">{resultsCount} perfiles</span>
       </div>
 
-      <div className="view-controls">
-        <button
-          className={viewMode === "basic" ? "view-btn active" : "view-btn"}
-          onClick={() => setViewMode("basic")}
-        >
-          📋 Vista estándar
-        </button>
-        <button
-          className={viewMode === "full" ? "view-btn active" : "view-btn"}
-          onClick={() => setViewMode("full")}
-        >
-          📊 Vista completa
-        </button>
+      <div className="actions-group">
+        {onOpenCreateModal && (
+          <button className="create-btn" onClick={onOpenCreateModal}>
+            ➕ Crear Perfil
+          </button>
+        )}
+
+        <div className="view-controls">
+          <button
+            className={viewMode === "basic" ? "view-btn active" : "view-btn"}
+            onClick={() => setViewMode("basic")}
+          >
+            📋 Vista estándar
+          </button>
+          <button
+            className={viewMode === "full" ? "view-btn active" : "view-btn"}
+            onClick={() => setViewMode("full")}
+          >
+            📊 Vista completa
+          </button>
+        </div>
       </div>
     </div>
   );

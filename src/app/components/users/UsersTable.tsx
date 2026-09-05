@@ -7,9 +7,10 @@ interface Props {
   users: User[];
   viewMode: "basic" | "detailed";
   searchTerm: string;
+  onDelete?: (id: string) => void;
 }
 
-const UsersTable: React.FC<Props> = ({ users, viewMode, searchTerm }) => {
+const UsersTable: React.FC<Props> = ({ users, viewMode, searchTerm, onDelete }) => {
   if (users.length === 0 && searchTerm) {
     return (
       <div className="empty-search">
@@ -44,11 +45,12 @@ const UsersTable: React.FC<Props> = ({ users, viewMode, searchTerm }) => {
                 <th>Verified</th>
               </>
             )}
+            {onDelete && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
-            <UserRow key={user.id} user={user} viewMode={viewMode} />
+            <UserRow key={user.id} user={user} viewMode={viewMode} onDelete={onDelete} />
           ))}
         </tbody>
       </table>

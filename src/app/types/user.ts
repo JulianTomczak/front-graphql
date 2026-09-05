@@ -1,3 +1,5 @@
+import { Profile } from "./profile";
+
 export interface UserFormData {
   username: string;
   password: string;
@@ -19,13 +21,5 @@ export type User = {
   isActive: boolean;
   registeredAt: string;
   lastLogin?: string;
-  profile: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone?: string;
-    jobTitle?: string;
-    company?: string;
-    isVerified?: boolean;
-  };
+  profile: Profile;
 };

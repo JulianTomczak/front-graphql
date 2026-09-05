@@ -8,9 +8,12 @@ interface ProfilesGridProps {
   viewMode: "basic" | "full";
   onEdit: (profile: Profile) => void;
   searchTerm: string;
+  onDelete?: (id: string) => void;
+  onVerify?: (profile: Profile) => void;
+  verifying?: boolean;
 }
 
-const ProfilesGrid: React.FC<ProfilesGridProps> = ({ profiles, viewMode, onEdit, searchTerm }) => {
+const ProfilesGrid: React.FC<ProfilesGridProps> = ({ profiles, viewMode, onEdit, searchTerm, onDelete, onVerify, verifying }) => {
   if (profiles.length === 0) {
     return (
       <div className="empty-state">
@@ -27,6 +30,9 @@ const ProfilesGrid: React.FC<ProfilesGridProps> = ({ profiles, viewMode, onEdit,
           profile={profile}
           viewMode={viewMode}
           onEdit={onEdit}
+          onDelete={onDelete}
+          onVerify={onVerify}
+          verifying={verifying}
         />
       ))}
     </div>

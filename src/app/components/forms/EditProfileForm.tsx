@@ -24,6 +24,7 @@ interface EditProfileFormProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
   onClose: () => void;
+  isCreate?: boolean;
 }
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({
@@ -35,6 +36,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
   onChange,
   onSubmit,
   onClose,
+  isCreate = false,
 }) => {
   return (
     <form onSubmit={onSubmit} className="modal-form">
@@ -176,7 +178,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           Cancelar
         </button>
         <button type="submit" disabled={loading} className="btn-primary">
-          {loading ? "Actualizando..." : "Actualizar Perfil"}
+          {loading ? (isCreate ? "Creando..." : "Actualizando...") : (isCreate ? "Crear Perfil" : "Actualizar Perfil")}
         </button>
       </div>
     </form>

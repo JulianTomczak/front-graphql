@@ -36,9 +36,24 @@ export const useProfileForm = (profile: Profile | null) => {
         jobTitle: profile.jobTitle || "",
         skills: profile.skills ? profile.skills.join(", ") : "",
       });
-      setCalculatedAge(profile.age || null);
     }
   }, [profile]);
+
+  // Recalcular edad a partir de la fecha de nacimiento
+  useEffect(() => {
+    if (formData.birthDate) {
+      const birth = new Date(formData.birthDate);
+      const today = new Date();
+      let age = today.getFullYear() - birth.getFullYear();
+      const monthDiff = today.getMonth() - birth.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--;
+      setCalculatedAge(age);
+    } else if (profile?.age) {
+      setCalculatedAge(profile.age);
+    } else {
+      setCalculatedAge(null);
+    }
+  }, [formData.birthDate, profile?.age]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -64,6 +79,7 @@ export const useProfileForm = (profile: Profile | null) => {
 
   return {
     formData,
+    setFormData,
     formErrors,
     calculatedAge,
     setFormErrors,

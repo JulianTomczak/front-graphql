@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CHECK_EMAIL } from "../../graphql/queries/profile";
+import { CHECK_EMAIL, GET_PROFILE } from "../../graphql/queries/profile";
 import { UPDATE_PROFILE } from "../../graphql/mutations/profile";
 import { Profile } from "../../types/profile";
 import EditProfileForm from "../forms/EditProfileForm";
@@ -21,6 +21,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
   onProfileUpdated,
   profile,
 }) => {
+  // Hook siempre al principio
+  const { data: fullProfileData, loading: fullProfileLoading } = useQuery<{ profile: Profile }>(
+    GET_PROFILE,
+    { variables: { id: profile?.id ?? "" }, skip: !profile?.id || !isOpen }
+  );
+
+  const fullProfile = fullProfileData?.profile ?? profile;
+
   const {
     formData,
     formErrors,
@@ -28,9 +36,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
     setFormErrors,
     handleChange,
     validateForm,
-  } = useProfileForm(profile);
+  } = useProfileForm(fullProfile);
 
-  // Hook siempre al principio
   useQuery(CHECK_EMAIL, {
     variables: { email: formData.email },
     skip: !formData.email || formData.email === profile?.email,
@@ -55,6 +62,23 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
             <button onClick={onClose} className="close-btn">×</button>
           </div>
           <p className="error-message">No se proporcionó un perfil válido para editar.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (fullProfileLoading && !fullProfileData) {
+    return (
+      <div className="modal-overlay">
+        <div className="modal profile-modal">
+          <div className="modal-header">
+            <h2>Editar Perfil</h2>
+            <button onClick={onClose} className="close-btn">×</button>
+          </div>
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p>Cargando datos del perfil...</p>
+          </div>
         </div>
       </div>
     );

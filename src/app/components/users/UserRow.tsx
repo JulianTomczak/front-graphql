@@ -5,9 +5,10 @@ import { User } from "../../types/user";
 interface Props {
   user: User;
   viewMode: "basic" | "detailed";
+  onDelete?: (id: string) => void;
 }
 
-const UserRow: React.FC<Props> = ({ user, viewMode }) => {
+const UserRow: React.FC<Props> = ({ user, viewMode, onDelete }) => {
   return (
     <tr className="table-row">
       <td><span className="username">{user.username}</span></td>
@@ -36,6 +37,17 @@ const UserRow: React.FC<Props> = ({ user, viewMode }) => {
           </td>
         </>
       )}
+      <td>
+        {onDelete && (
+          <button
+            className="delete-btn"
+            onClick={() => onDelete(user.id)}
+            title="Eliminar usuario"
+          >
+            🗑️
+          </button>
+        )}
+      </td>
     </tr>
   );
 };

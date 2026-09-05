@@ -6,9 +6,12 @@ interface Props {
   profile: Profile;
   viewMode: "basic" | "full";
   onEdit: (profile: Profile) => void;
+  onDelete?: (id: string) => void;
+  onVerify?: (profile: Profile) => void;
+  verifying?: boolean;
 }
 
-const ProfileCard: React.FC<Props> = ({ profile, viewMode, onEdit }) => {
+const ProfileCard: React.FC<Props> = ({ profile, viewMode, onEdit, onDelete, onVerify, verifying }) => {
   return (
     <div className="profile-card">
       <div className="card-header">
@@ -45,6 +48,26 @@ const ProfileCard: React.FC<Props> = ({ profile, viewMode, onEdit }) => {
           >
             Editar
           </button>
+          {onVerify && (
+            <button
+              className="verify-btn"
+              onClick={() => onVerify(profile)}
+              disabled={verifying}
+              style={{ marginLeft: "0.5rem" }}
+            >
+              {profile.isVerified ? "✗ Desverificar" : "✓ Verificar"}
+            </button>
+          )}
+          {onDelete && (
+            <button
+              className="delete-btn"
+              onClick={() => onDelete(profile.id)}
+              title="Eliminar perfil"
+              style={{ marginLeft: "0.5rem" }}
+            >
+              🗑️
+            </button>
+          )}
         </div>
       </div>
     </div>

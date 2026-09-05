@@ -1,5 +1,27 @@
 import { gql } from "@apollo/client";
 
+export const GET_PROFILE = gql`
+  query GetProfile($id: ID!) {
+    profile(id: $id) {
+      id
+      firstName
+      lastName
+      email
+      phone
+      bio
+      birthDate
+      age
+      salary
+      company
+      jobTitle
+      skills
+      isVerified
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const CHECK_EMAIL = gql`
   query CheckEmail($email: String!) {
     profileByEmail(email: $email) {

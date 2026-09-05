@@ -6,6 +6,7 @@ export const CREATE_USER = gql`
       id
       username
       isActive
+      registeredAt
       profile {
         id
         firstName
@@ -21,6 +22,12 @@ export const CREATE_USER = gql`
         skills
       }
     }
+  }
+`;
+
+export const REMOVE_USER = gql`
+  mutation RemoveUser($id: ID!) {
+    removeUser(id: $id)
   }
 `;
 
